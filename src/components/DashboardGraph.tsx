@@ -22,7 +22,7 @@ function formatTime(dateString: string): string {
   });
 }
 
-export default function DashboardCard({ title }: { title: string }) {
+export default function DashboardGraph({ title }: { title: string }) {
   const analytics = useAnalaytics();
   const data = analytics.state.data;
 
@@ -32,18 +32,29 @@ export default function DashboardCard({ title }: { title: string }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex justify-between items-center text-lg font-medium">
+        <CardTitle
+          data-testid="graph-title"
+          className="flex justify-between items-center text-lg font-medium"
+        >
           {title}
           <Select
+            data-testid="graph-select"
             value={selectedDataType}
             onValueChange={(value) => setSelectedDataType(value as DataType)}
           >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
+            <SelectTrigger
+              data-testid="graph-select-trigger"
+              className="w-[180px]"
+            >
+              <SelectValue data-testid="graph-select-value" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent data-testid="graph-select-content">
               {Object.entries(data).map(([key, value]) => (
-                <SelectItem key={key} value={key}>
+                <SelectItem
+                  data-testid="graph-select-item"
+                  key={key}
+                  value={key}
+                >
                   {value.title}
                 </SelectItem>
               ))}
@@ -53,7 +64,7 @@ export default function DashboardCard({ title }: { title: string }) {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={data[selectedDataType].values}>
+          <LineChart data={data[selectedDataType]?.values}>
             <Line type="monotone" dataKey="value" stroke="#8884d8" />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis
