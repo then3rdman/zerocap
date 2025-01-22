@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Plug, Unplug } from "lucide-react";
 import { useAnalaytics } from "@/contexts/AnalyticsContext";
 import { useEffect } from "react";
+import DashboardGraph from "@/components/DashboardGraph";
 
 export default function Dashboard() {
   const { state, connect, disconnect } = useAnalaytics();
-  const { status, data } = state;
+  const { status } = state;
 
   // Connect on mount
   useEffect(() => {
@@ -36,9 +37,10 @@ export default function Dashboard() {
         </Button>
       </header>
       <main className="flex flex-col gap-4">
-        <DashboardCard title="Visitors" dataType="visitor" />
-        <DashboardCard title="Sales" dataType="sale" />
-        <DashboardCard title="Conversion Rate" dataType="conversion" />
+        <DashboardCard dataType="visitor" />
+        <DashboardCard dataType="sale" />
+        <DashboardCard dataType="conversion" />
+        <DashboardGraph title="Trend Analysis" />
       </main>
     </>
   );
