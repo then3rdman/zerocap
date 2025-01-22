@@ -27,6 +27,12 @@
 - Reducer pattern for predictable state updates
 - Automatic data normalization and formatting based on data type
 
+## Considerations
+
+- Using a reducer pattern for state management is a bit overkill for this project, in the current form but it's a good pattern for scaling up the project as it's very likely that there would eventually be more than 3 data types
+- The typing for the data allows for easy addition of new data types
+- Testing could be more complete but the key functionality is covered (excepting switching data type on the graph, ran out of time on this)
+
 ### Technical Details
 
 - Uses React Context for state management
