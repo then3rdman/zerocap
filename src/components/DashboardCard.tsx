@@ -6,10 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAnalaytics } from "@/contexts/AnalyticsContext";
-import {
-  AnalyticsDataPoint,
-  DataType,
-} from "@/contexts/AnalyticsContext/types";
+import { DataType } from "@/contexts/AnalyticsContext/types";
 import { ArrowUp, ArrowDown, ChartLine } from "lucide-react";
 
 function deltaInfo(delta: number) {
@@ -27,6 +24,7 @@ function deltaInfo(delta: number) {
     text = `${delta}% increase from last update`;
   } else {
     arrow = <ArrowDown className="inline" size={16} />;
+
     color = "text-red-500";
     text = `${delta}% decrease from last update`;
   }
