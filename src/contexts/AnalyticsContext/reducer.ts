@@ -1,14 +1,25 @@
 import { AnalyticsAction, AnalyticsDataPoint, AnalyticsState } from "./types";
 
 export const initialState: AnalyticsState = {
-  visitors: [],
-  sales: [],
-  conversions: [],
+  data: {
+    visitor: {
+      format: "number",
+      values: [],
+    },
+    sale: {
+      format: "currency",
+      values: [],
+    },
+    conversion: {
+      format: "percentage",
+      values: [],
+    },
+  },
   status: "idle",
   error: null,
 };
 
-const historyLimit = 1000;
+const HISTORY_LIMIT = 1000;
 
 function calculatePercentageDelta(oldValue: number, newValue: number) {
   if (oldValue === 0) {
@@ -55,46 +66,67 @@ export function analyticsReducer(
           const visitorDataPoint: AnalyticsDataPoint = {
             timestamp: message.timestamp,
             delta: calculatePercentageDelta(
-              state.visitors.at(-1)?.value ?? 0,
+              state.data.visitor.values.at(-1)?.value ?? 0,
               message.value
             ),
             value: message.value,
           };
           return {
             ...state,
-            visitors: [...state.visitors, visitorDataPoint].slice(
-              -historyLimit
-            ),
+            data: {
+              ...state.data,
+              visitor: {
+                ...state.data.visitor,
+                values: [...state.data.visitor.values, visitorDataPoint].slice(
+                  -HISTORY_LIMIT
+                ),
+              },
+            },
           };
 
         case "sale":
           const saleDataPoint: AnalyticsDataPoint = {
             timestamp: message.timestamp,
             delta: calculatePercentageDelta(
-              state.sales.at(-1)?.value ?? 0,
+              state.data.sale.values.at(-1)?.value ?? 0,
               message.value
             ),
             value: message.value,
           };
           return {
             ...state,
-            sales: [...state.sales, saleDataPoint].slice(-1000),
+            data: {
+              ...state.data,
+              sale: {
+                ...state.data.sale,
+                values: [...state.data.sale.values, saleDataPoint].slice(
+                  -HISTORY_LIMIT
+                ),
+              },
+            },
           };
 
         case "conversion":
           const conversionDataPoint: AnalyticsDataPoint = {
             timestamp: message.timestamp,
             delta: calculatePercentageDelta(
-              state.conversions.at(-1)?.value ?? 0,
+              state.data.conversion.values.at(-1)?.value ?? 0,
               message.value
             ),
             value: message.value,
           };
           return {
             ...state,
-            conversions: [...state.conversions, conversionDataPoint].slice(
-              -1000
-            ),
+            data: {
+              ...state.data,
+              conversion: {
+                ...state.data.conversion,
+                values: [
+                  ...state.data.conversion.values,
+                  conversionDataPoint,
+                ].slice(-HISTORY_LIMIT),
+              },
+            },
           };
 
         default:

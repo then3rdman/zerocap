@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function Dashboard() {
   const { state, connect, disconnect } = useAnalaytics();
-  const { status, visitors, sales, conversions } = state;
+  const { status, data } = state;
 
   // Connect on mount
   useEffect(() => {
@@ -36,21 +36,9 @@ export default function Dashboard() {
         </Button>
       </header>
       <main className="flex flex-col gap-4">
-        <DashboardCard
-          title="Visitors"
-          dataPoint={visitors.at(-1)}
-          dataType="number"
-        />
-        <DashboardCard
-          title="Sales"
-          dataPoint={sales.at(-1)}
-          dataType="currency"
-        />
-        <DashboardCard
-          title="Conversion Rate"
-          dataPoint={conversions.at(-1)}
-          dataType="percentage"
-        />
+        <DashboardCard title="Visitors" dataType="visitor" />
+        <DashboardCard title="Sales" dataType="sale" />
+        <DashboardCard title="Conversion Rate" dataType="conversion" />
       </main>
     </>
   );

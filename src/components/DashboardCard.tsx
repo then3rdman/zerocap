@@ -5,7 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AnalyticsDataPoint } from "@/contexts/AnalyticsContext/types";
+import { useAnalaytics } from "@/contexts/AnalyticsContext";
+import {
+  AnalyticsDataPoint,
+  DataType,
+} from "@/contexts/AnalyticsContext/types";
 import { ArrowUp, ArrowDown, ChartLine } from "lucide-react";
 
 function deltaInfo(delta: number) {
@@ -36,13 +40,17 @@ function deltaInfo(delta: number) {
 
 export default function DashboardCard({
   title,
-  dataPoint,
   dataType,
 }: {
   title: string;
   dataPoint?: AnalyticsDataPoint;
-  dataType: "number" | "currency" | "percentage";
+  dataType: DataType;
 }) {
+  const analytics = useAnalaytics();
+  const data = analytics.state.data[dataType];
+  const dataFormat = data.format;
+  const dataPoint = data.values.at(-1);
+
   return (
     <Card>
       <CardHeader>
@@ -55,9 +63,9 @@ export default function DashboardCard({
       </CardHeader>
       <CardContent>
         <p className="text-4xl font-bold">
-          {dataType === "currency" && "$"}
+          {dataFormat === "currency" && "$"}
           {dataPoint?.value ?? 0}
-          {dataType === "percentage" && "%"}
+          {dataFormat === "percentage" && "%"}
         </p>
         {(dataPoint?.delta && deltaInfo(dataPoint.delta)) ?? <p>N/A</p>}
       </CardContent>

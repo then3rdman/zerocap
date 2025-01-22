@@ -1,15 +1,24 @@
-type DataType = "visitor" | "sale" | "conversion";
+export const DATA_TYPES = ["visitor", "sale", "conversion"] as const;
+export type DataType = (typeof DATA_TYPES)[number];
 
-interface BaseAnalyticsMessage {
-  dataType: DataType;
-  value: number;
-  timestamp: number;
+export const DATA_FORMATS = ["number", "currency", "percentage"] as const;
+export type DataFormat = (typeof DATA_FORMATS)[number];
+
+export interface AnalyticsData {
+  format: DataFormat;
+  values: AnalyticsDataPoint[];
 }
 
 export interface AnalyticsDataPoint {
   timestamp: number;
   delta: number;
   value: number;
+}
+
+interface BaseAnalyticsMessage {
+  dataType: DataType;
+  value: number;
+  timestamp: number;
 }
 
 export interface VisitorMessage extends BaseAnalyticsMessage {
@@ -28,9 +37,7 @@ export type AnalyticsMessage = VisitorMessage | SaleMessage | ConversionMessage;
 
 // State interface
 export interface AnalyticsState {
-  visitors: AnalyticsDataPoint[];
-  sales: AnalyticsDataPoint[];
-  conversions: AnalyticsDataPoint[];
+  data: Record<DataType, AnalyticsData>;
   status: "idle" | "connecting" | "connected" | "disconnected" | "error";
   error: Error | null;
 }
