@@ -5,6 +5,7 @@ export const DATA_FORMATS = ["number", "currency", "percentage"] as const;
 export type DataFormat = (typeof DATA_FORMATS)[number];
 
 export interface AnalyticsData {
+  title: string;
   format: DataFormat;
   values: AnalyticsDataPoint[];
 }

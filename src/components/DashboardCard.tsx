@@ -38,16 +38,10 @@ function deltaInfo(delta: number) {
   );
 }
 
-export default function DashboardCard({
-  title,
-  dataType,
-}: {
-  title: string;
-  dataPoint?: AnalyticsDataPoint;
-  dataType: DataType;
-}) {
+export default function DashboardCard({ dataType }: { dataType: DataType }) {
   const analytics = useAnalaytics();
   const data = analytics.state.data[dataType];
+  const dataTitle = data.title;
   const dataFormat = data.format;
   const dataPoint = data.values.at(-1);
 
@@ -55,7 +49,7 @@ export default function DashboardCard({
     <Card>
       <CardHeader>
         <CardTitle className="text-lg font-medium text-center">
-          {title}
+          {dataTitle}
         </CardTitle>
         <CardDescription className="flex justify-center">
           <ChartLine size={16} />

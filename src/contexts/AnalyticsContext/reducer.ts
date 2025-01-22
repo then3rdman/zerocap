@@ -3,14 +3,17 @@ import { AnalyticsAction, AnalyticsDataPoint, AnalyticsState } from "./types";
 export const initialState: AnalyticsState = {
   data: {
     visitor: {
+      title: "Visitors",
       format: "number",
       values: [],
     },
     sale: {
+      title: "Sales",
       format: "currency",
       values: [],
     },
     conversion: {
+      title: "Conversion Rate",
       format: "percentage",
       values: [],
     },
