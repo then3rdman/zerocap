@@ -1,5 +1,6 @@
 import "./app.css";
+import Dashboard from "@/pages/dashboard";
 
 export default function App() {
-  return <h1>Hello World</h1>;
+  return <Dashboard />;
 }
