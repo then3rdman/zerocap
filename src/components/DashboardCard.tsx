@@ -29,10 +29,13 @@ function deltaInfo(delta: number) {
     text = `${delta}% decrease from last update`;
   }
   return (
-    <p className={`${color} text-sm`}>
-      {text}
+    <span
+      data-testid="delta-info"
+      className={`${color} text-sm flex items-center gap-1`}
+    >
+      <p>{text}</p>
       {arrow}
-    </p>
+    </span>
   );
 }
 
@@ -46,20 +49,28 @@ export default function DashboardCard({ dataType }: { dataType: DataType }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium text-center">
+        <CardTitle
+          data-testid="card-title"
+          className="text-lg font-medium text-center"
+        >
           {dataTitle}
         </CardTitle>
-        <CardDescription className="flex justify-center">
+        <CardDescription
+          data-testid="card-description"
+          className="flex justify-center"
+        >
           <ChartLine size={16} />
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <p className="text-4xl font-bold">
+      <CardContent data-testid="card-content">
+        <p data-testid="data-point" className="text-4xl font-bold">
           {dataFormat === "currency" && "$"}
           {dataPoint?.value ?? 0}
           {dataFormat === "percentage" && "%"}
         </p>
-        {(dataPoint?.delta && deltaInfo(dataPoint.delta)) ?? <p>N/A</p>}
+        {(dataPoint?.delta && deltaInfo(dataPoint.delta)) ?? (
+          <p className="text-sm">N/A</p>
+        )}
       </CardContent>
     </Card>
   );

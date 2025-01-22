@@ -42,62 +42,56 @@ describe("DashboardCard", () => {
     (useAnalaytics as Mock).mockReturnValue(mockAnalyticsState);
   });
 
+  it("renders card with all elements", () => {
+    render(<DashboardCard dataType="sale" />);
+    expect(screen.getByTestId("card-title")).toBeDefined();
+    expect(screen.getByTestId("card-description")).toBeDefined();
+    expect(screen.getByTestId("card-content")).toBeDefined();
+    expect(screen.getByTestId("data-point")).toBeDefined();
+  });
+
   it("renders currency format correctly", () => {
     render(<DashboardCard dataType="sale" />);
 
-    expect(screen.getByText("Sales")).toBeInTheDocument();
-    expect(screen.getByText("$1000")).toBeInTheDocument();
-    expect(
-      screen.getByText(/10% increase from last update/)
-    ).toBeInTheDocument();
-    expect(screen.getByTestId("arrow-up")).toBeInTheDocument();
+    expect(screen.getByText("Sales")).toBeDefined();
+
+    expect(screen.getByText("$1000")).toBeDefined();
+    expect(screen.getByText(/10% increase from last update/)).toBeDefined();
+    expect(screen.getByTestId("arrow-up")).toBeDefined();
   });
 
-  // it("renders percentage format correctly", () => {
-  //   render(<DashboardCard dataType="conversion" />);
+  it("renders percentage format correctly", () => {
+    render(<DashboardCard dataType="conversion" />);
 
-  //   expect(screen.getByText("Conversion Rate")).toBeInTheDocument();
-  //   expect(screen.getByText("25%")).toBeInTheDocument();
-  //   expect(
-  //     screen.getByText(/5% decrease from last update/)
-  //   ).toBeInTheDocument();
-  //   expect(screen.getByTestId("arrow-down")).toBeInTheDocument();
-  // });
+    expect(screen.getByText("Conversion Rate")).toBeDefined();
+    expect(screen.getByText("25%")).toBeDefined();
+    expect(screen.getByText(/5% decrease from last update/)).toBeDefined();
+    expect(screen.getByTestId("arrow-down")).toBeDefined();
+  });
 
-  // it("renders infinity delta correctly", () => {
-  //   render(<DashboardCard dataType="visitor" />);
+  it("renders infinity delta correctly", () => {
+    render(<DashboardCard dataType="visitor" />);
 
-  //   expect(screen.getByText("Visitors")).toBeInTheDocument();
-  //   expect(screen.getByText("500")).toBeInTheDocument();
-  //   expect(
-  //     screen.getByText(/Infinitely more than last update/)
-  //   ).toBeInTheDocument();
-  //   expect(screen.getByTestId("arrow-up")).toBeInTheDocument();
-  // });
+    expect(screen.getByText("Visitors")).toBeDefined();
+    expect(screen.getByText("500")).toBeDefined();
+    expect(screen.getByText(/Infinitely more than last update/)).toBeDefined();
+    expect(screen.getByTestId("arrow-up")).toBeDefined();
+  });
 
-  // it("renders default values when no data is available", () => {
-  //   render(<DashboardCard dataType="visitor" />);
+  it("renders chart icon", () => {
+    render(<DashboardCard dataType="sale" />);
+    expect(screen.getByTestId("chart-line")).toBeDefined();
+  });
 
-  //   expect(screen.getByText("Visitors")).toBeInTheDocument();
-  //   expect(screen.getByText("0")).toBeInTheDocument();
-  //   expect(screen.getByText("N/A")).toBeInTheDocument();
-  // });
+  it("applies correct color classes for positive delta", () => {
+    render(<DashboardCard dataType="sale" />);
+    const deltaText = screen.getByTestId("delta-info");
+    expect(deltaText).toHaveClass("text-green-500");
+  });
 
-  // it("renders chart icon", () => {
-  //   render(<DashboardCard dataType="sale" />);
-  //   expect(screen.getByTestId("chart-line")).toBeInTheDocument();
-  // });
-
-  // // Test for proper className assignments
-  // it("applies correct color classes for positive delta", () => {
-  //   render(<DashboardCard dataType="sale" />);
-  //   const deltaText = screen.getByText(/10% increase from last update/);
-  //   expect(deltaText).toHaveClass("text-green-500");
-  // });
-
-  // it("applies correct color classes for negative delta", () => {
-  //   render(<DashboardCard dataType="conversion" />);
-  //   const deltaText = screen.getByText(/5% decrease from last update/);
-  //   expect(deltaText).toHaveClass("text-red-500");
-  // });
+  it("applies correct color classes for negative delta", () => {
+    render(<DashboardCard dataType="conversion" />);
+    const deltaText = screen.getByTestId("delta-info");
+    expect(deltaText).toHaveClass("text-red-500");
+  });
 });
